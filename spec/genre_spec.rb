@@ -23,7 +23,7 @@ describe Genre do
       expect(genre.items).not_to be_empty
     end
 
-    it 'has the correct rental' do
+    it 'has the correct item' do
       expect(genre.items[0]).to eq(item)
     end
   end
