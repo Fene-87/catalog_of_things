@@ -1,3 +1,5 @@
+require_relative './item'
+
 class Movie < Item
   def initialize(silent, publish_date)
     super(publish_date)
