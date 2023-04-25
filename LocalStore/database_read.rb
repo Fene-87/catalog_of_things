@@ -9,7 +9,7 @@ module ReadFromDatabase
       data = genres.read
       parsed_genres = JSON.parse(data)
       genre_arr = parsed_genres.map do |dat|
-        Genre.new(dat['name'], id: dat['id'])
+        Genre.new(dat['name'], id= dat['id'])
       end
     else
       File.write('./data/genre.json', [])
@@ -23,7 +23,7 @@ module ReadFromDatabase
       data = music_albums.read
       parsed_music_albums = JSON.parse(data)
       music_albums_arr = parsed_music_albums.map do |dat|
-        MusicAlbum.new(dat['on_spotify'], dat['publish_date'], id: dat['id'])
+        MusicAlbum.new(dat['on_spotify'], dat['publish_date'], id= dat['id'])
       end
     else
       File.write('./data/music.json', [])

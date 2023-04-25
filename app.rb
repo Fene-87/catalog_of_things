@@ -80,10 +80,10 @@ class App
   def validate_music_album(spotify_value, _publish_date_value)
     if spotify_value == 'Y'
       new_spotify_value = true
-      create_music_album(new_spotify_value, publish_date)
+      create_music_album(new_spotify_value, _publish_date_value)
     elsif spotify_value == 'N'
       new_spotify_value = false
-      create_music_album(new_spotify_value, publish_date)
+      create_music_album(new_spotify_value, _publish_date_value)
     else
       puts 'Invalid spotify value Input'
       run
@@ -98,7 +98,7 @@ class App
         publish_date: new_music_album.publish_date,
         id: new_music_album.id }
     end
-    write_genre(new_music_album_vari)
+    write_music_album(new_music_album_vari)
     puts 'Music Album created successfully!.'
     run
   end
@@ -110,8 +110,8 @@ class App
     elsif show_index
       @genres.each_with_index do |genre, index|
         puts "#{index}) #{genre.class} Name: #{genre.name}, ID: #{genre.id}"
-        puts 'Display genre with index successfully'
       end
+      puts 'Display genre with index successfully'
     else
       @genres.each { |genre| puts "#{genre.class}) Name: #{genre.name}, ID: #{genre.id}" }
       puts 'Display genre without index successfully'
