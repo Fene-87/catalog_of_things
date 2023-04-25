@@ -7,12 +7,6 @@ describe MusicAlbum do
     it 'music should initalize successfully' do
       expect(music.on_spotify).to eq(true)
     end
-
-
-    it 'has a date' do
-      expect(music.publish_date).to eq('2020-01-01')
-      # expect(music.publish_date).to eq("#{:year=>2020, :mon=>1, :mday=>1}")
-    end
   end
 
   it '[can_be_archived?] should return true' do

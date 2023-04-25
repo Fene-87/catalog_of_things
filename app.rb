@@ -77,13 +77,13 @@ class App
     run
   end
 
-  def validate_music_album(spotify_value, _publish_date_value)
+  def validate_music_album(spotify_value, publish_date_value)
     if spotify_value == 'Y'
       new_spotify_value = true
-      create_music_album(new_spotify_value, _publish_date_value)
+      create_music_album(new_spotify_value, publish_date_value)
     elsif spotify_value == 'N'
       new_spotify_value = false
-      create_music_album(new_spotify_value, _publish_date_value)
+      create_music_album(new_spotify_value, publish_date_value)
     else
       puts 'Invalid spotify value Input'
       run
