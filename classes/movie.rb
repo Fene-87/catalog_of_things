@@ -8,6 +8,8 @@ class Movie < Item
     @items = []
   end
 
+  private
+
   def can_be_archived?
     # movie can be archived if parent method returns true
     # or if it is silent
