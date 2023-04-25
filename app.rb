@@ -1,4 +1,10 @@
+require_relative './classes/item'
+
 class App
+  def initialize
+    @item = Item.new('2019-01-01')
+  end
+
   def welcome
     'Welcome to the app'
   end
@@ -8,7 +14,7 @@ class App
     puts welcome
 
     puts 'What would you like to do?'
-    puts '1. Add a new item'
+    puts '1. Add a new genre'
     puts '2. Archive an item'
     puts '3. Exit'
 
@@ -16,9 +22,9 @@ class App
 
     case input
     when '1'
-      add_item
+      @item.add_genre('genre')
     when '2'
-      archive_item
+      @item.move_to_archive
     when '3'
       exit
     else
