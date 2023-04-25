@@ -1,9 +1,10 @@
 require_relative './item'
 
 class Movie < Item
-  def initialize(silent, publish_date)
+  def initialize(name, silent, publish_date)
     super(publish_date)
     @silent = silent
+    @name = name
     @items = []
   end
 
