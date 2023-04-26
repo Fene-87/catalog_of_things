@@ -1,12 +1,32 @@
 [
   {
     "on_spotify": true,
-    "publish_date": "2022-05-02",
-    "id": 847
+    "publish_date": "2002-12-03",
+    "id": 851,
+    "archived": true,
+    "genre": {
+      "id": 578,
+      "name": "Comedy"
+    }
   },
   {
     "on_spotify": true,
-    "publish_date": "2011-05-23",
-    "id": 712
+    "publish_date": "2010-03-04",
+    "id": 487,
+    "archived": true,
+    "genre": {
+      "id": 578,
+      "name": "Comedy"
+    }
+  },
+  {
+    "on_spotify": true,
+    "publish_date": "2014-05-03",
+    "id": 943,
+    "archived": false,
+    "genre": {
+      "id": 292,
+      "name": "Romance"
+    }
   }
 ]

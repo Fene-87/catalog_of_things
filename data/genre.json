@@ -1,14 +1,10 @@
 [
   {
     "name": "Comedy",
-    "id": 567
+    "id": 578
   },
   {
-    "name": "Action",
-    "id": 216
-  },
-  {
-    "name": "Thriller",
-    "id": 729
+    "name": "Romance",
+    "id": 292
   }
 ]
