@@ -1,11 +1,12 @@
 require_relative './classes/source'
 require_relative './classes/movie'
 require_relative './classes/storage/movie_storage'
+require_relative './classes/storage/source_storage'
 
 class App
   def initialize
     @movies = MovieStorage.fetch
-    @sources = []
+    @sources = SourceStorage.fetch
   end
 
   def welcome
@@ -82,6 +83,7 @@ class App
 
   def quit
     MovieStorage.store(@movies)
+    SourceStorage.store(@sources)
   end
 
   def run

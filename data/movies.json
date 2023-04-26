@@ -4,5 +4,11 @@
     "name": "Inception",
     "publish_date": "2010-07-08",
     "silent": false
+  },
+  {
+    "id": 801,
+    "name": "The Dark Knight",
+    "publish_date": "2008-07-14",
+    "silent": false
   }
 ]
