@@ -148,7 +148,6 @@ class App
     SourceStorage.store(@sources)
   end
 
-  # rubocop:disable Metrics/CyclomaticComplexity
   def run
     puts welcome
     loop do
