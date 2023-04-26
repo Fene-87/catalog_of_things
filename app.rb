@@ -6,7 +6,7 @@ require_relative './classes/genre'
 require_relative './classes/source'
 require_relative './classes/movie'
 
-
+# rubocop:disable Metrics/ClassLength
 class App
   include ReadFromDatabase
   include WriteToDatabase
@@ -97,38 +97,32 @@ class App
       list_options
       choice = gets.chomp
 
-    case choice
-    when '1'
-      @item
-    when '2'
-      display_music_album(show_index: true)
-    when '5'
-      display_genre(show_index: true)
-    when '10'
-      puts 'On spotify? [Y/N]:  '
-      spotify_value = gets.chomp
-      puts 'Publish Date: (YYYY-MM-DD)'
-      publish_date_value = gets.chomp
-      validate_music_album(spotify_value, publish_date_value)
-    when '13'
-      puts 'Enter genre name (eg Comedy)'
-      genre_value = gets.chomp
-      create_genre(genre_value)
-    when '14'
-      exit
-    when '3'
-      list_movies
-    when '8'
-      list_sources
-    when '11'
-      add_movie
-    when '13', 'q', 'Q'
-      break
-    else
-      puts 'Invalid input'
+      case choice
+      when '1'
+        @item
+      when '2'
+        display_music_album(show_index: true)
+      when '5'
+        display_genre(show_index: true)
+      when '10'
+        puts 'On spotify? [Y/N]:  '
+        spotify_value = gets.chomp
+        puts 'Publish Date: (YYYY-MM-DD)'
+        publish_date_value = gets.chomp
+        validate_music_album(spotify_value, publish_date_value)
+      when '3'
+        list_movies
+      when '8'
+        list_sources
+      when '11'
+        add_movie
+      when '13', 'q', 'Q'
+        break
+      else
+        puts 'Invalid input'
+      end
     end
   end
-end
 
   def create_genre(name)
     new_genre_obj = Genre.new(name)
@@ -200,3 +194,4 @@ end
     run
   end
 end
+# rubocop:enable Metrics/ClassLength

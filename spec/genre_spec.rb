@@ -1,7 +1,6 @@
 require_relative '../classes/genre'
 require_relative '../classes/item'
 
-
 describe Genre do
   context 'when initialized' do
     genre = Genre.new('Afrobeat', 10)
