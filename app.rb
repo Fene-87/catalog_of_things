@@ -5,6 +5,8 @@ require_relative './classes/music'
 require_relative './classes/genre'
 require_relative './classes/source'
 require_relative './classes/movie'
+# require_relative './classes/storage/movie_storage'
+# require_relative './classes/storage/source_storage'
 
 class App
   include ReadFromDatabase
@@ -16,6 +18,8 @@ class App
     @music_albums = read_music_album
     @movies = []
     @sources = []
+    # @movies = MovieStorage.fetch
+    # @sources = SourceStorage.fetch
   end
 
   def welcome
