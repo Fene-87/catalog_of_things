@@ -1,3 +1,5 @@
+require 'json'
+
 class Storage
   def fetch
     raise NotImplementedError

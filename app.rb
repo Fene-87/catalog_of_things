@@ -1,9 +1,10 @@
 require_relative './classes/source'
 require_relative './classes/movie'
+require_relative './classes/storage/movie_storage'
 
 class App
   def initialize
-    @movies = []
+    @movies = MovieStorage.fetch
     @sources = []
   end
 
@@ -79,6 +80,10 @@ class App
     new_movie.add_source(source)
   end
 
+  def quit
+    MovieStorage.store(@movies)
+  end
+
   def run
     puts welcome
     loop do
@@ -93,6 +98,7 @@ class App
       when '11'
         add_movie
       when '13', 'q', 'Q'
+        quit
         break
       end
     end
