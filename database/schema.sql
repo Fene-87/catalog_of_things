@@ -1,16 +1,30 @@
 CREATE DATABASE Catalog
 
 CREATE TABLE genre(
-  id INT NOT NULL PRIMARY KEY,
+  id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   name VARCHAR(255),
-  item_id INT REFERENCES items(id)
+   FOREIGN KEY(item_id) REFERENCES items(id)
 );
 
 CREATE TABLE MusicAlbum(
-  id  INT NOT NULL PRIMARY KEY,
+  id  INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   on_spotify BOOLEAN,
   publish_date DATE
 );
+
+CREATE TABLE [Item](
+	[id] [int] GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+	[genre] [int] ,
+	[author] [int] ,
+	[source] [int] ,
+	[label] [int] ,
+	[publishdate] [date] ,
+	[archived] [BOOLEAN] ,
+);
+
+ALTER TABLE [Item]  WITH CHECK ADD CONSTRAINT [FK_Item_Genre] FOREIGN KEY([genre])
+REFERENCES [Genre] ([id])
+ALTER TABLE [Item] CHECK CONSTRAINT [FK_Item_Genre]
 
 CREATE TABLE SOURCES (
   id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
