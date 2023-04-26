@@ -1,13 +1,14 @@
 require_relative './item'
 
 class Movie < Item
-  attr_reader :name, :publish_date
+  attr_reader :name, :publish_date, :silent, :id
 
-  def initialize(name, silent, publish_date)
+  def initialize(name, silent, publish_date, id = Random.rand(1..1000))
     super(publish_date)
     @silent = silent
     @name = name
     @items = []
+    @id = id
   end
 
   private

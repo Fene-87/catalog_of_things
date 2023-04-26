@@ -1,11 +1,13 @@
 require_relative './classes/source'
 require_relative './classes/movie'
+require_relative './classes/storage/movie_storage'
+require_relative './classes/storage/source_storage'
 require './classes/game.rb'
 
 class App
   def initialize
-    @movies = []
-    @sources = []
+    @movies = MovieStorage.fetch
+    @sources = SourceStorage.fetch
     @games = []
     @authors = []
   end
@@ -114,6 +116,11 @@ class App
     @games << new_game
   end
 
+  def quit
+    MovieStorage.store(@movies)
+    SourceStorage.store(@sources)
+  end
+
   def run
     puts welcome
     loop do
@@ -132,6 +139,7 @@ class App
       when '12'
         add_game
       when '13', 'q', 'Q'
+        quit
         break
       end
     end
