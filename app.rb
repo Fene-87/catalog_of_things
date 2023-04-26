@@ -157,6 +157,8 @@ class App
         list_movies
       when '4'
         list_games
+      when '7'
+        list_authors
       when '8'
         list_sources
       when '11'
