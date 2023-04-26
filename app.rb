@@ -3,6 +3,8 @@ require './LocalStore/database_read'
 require_relative './classes/item'
 require_relative './classes/music'
 require_relative './classes/genre'
+require_relative './classes/source'
+require_relative './classes/movie'
 
 
 class App
@@ -13,16 +15,15 @@ class App
     @item = Item.new('2019-01-01')
     @genres = read_genre
     @music_albums = read_music_album
+    @movies = []
+    @sources = []
   end
 
   def welcome
     'Welcome to the app'
   end
 
-  def run
-    # TODO: - add your code here
-    puts welcome
-
+  def list_options
     puts 'What would you like to do?'
     puts '1. List all books'
     puts '2. List all music albums'
@@ -36,12 +37,67 @@ class App
     puts '10. Add a new music album'
     puts '11. Add a new movie'
     puts '12. Add a new game'
-    puts '13. Add a new genre'
-    puts '14. Exit'
+    puts '13. Exit'
+  end
 
-    input = gets.chomp
+  def list_movies
+    if @movies.empty?
+      puts "There are no movies\n\n"
+    else
+      puts "\n\nMovies:\n"
+      @movies.each do |movie|
+        puts "#{movie.name} (#{movie.publish_date.year})\n"
+      end
+    end
+    puts
+  end
 
-    case input
+  def list_sources
+    if @sources.empty?
+      puts "There are no sources\n\n"
+    else
+      puts "\n\Sources:\n"
+      @sources.each do |source|
+        puts "#{source.name}\n"
+      end
+    end
+    puts
+  end
+
+  def add_movie
+    puts 'What is the name of the movie?'
+    movie_name = gets.chomp
+
+    puts 'Is the movie silent? (y/n)'
+    silent = gets.chomp.downcase == 'y'
+
+    puts 'What is the publish date? (YYYY-MM-DD)'
+    publish_date = gets.chomp
+
+    new_movie = Movie.new(movie_name, silent, publish_date)
+    @movies << new_movie
+
+    puts 'What is the source of the movie? (e.g. Online, From a friend, etc.)'
+    source_name = gets.chomp
+
+    # find the source with the given name, or create a new one
+    source = @sources.find { |source_temp| source_temp.name == source_name }
+    return unless source.nil?
+
+    source = Source.new(source_name)
+    @sources << source
+
+    # add the movie to the source
+    new_movie.add_source(source)
+  end
+
+  def run
+    puts welcome
+    loop do
+      list_options
+      choice = gets.chomp
+
+    case choice
     when '1'
       @item
     when '2'
@@ -60,10 +116,19 @@ class App
       create_genre(genre_value)
     when '14'
       exit
+    when '3'
+      list_movies
+    when '8'
+      list_sources
+    when '11'
+      add_movie
+    when '13', 'q', 'Q'
+      break
     else
       puts 'Invalid input'
     end
   end
+end
 
   def create_genre(name)
     new_genre_obj = Genre.new(name)
