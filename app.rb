@@ -1,10 +1,13 @@
 require_relative './classes/source'
 require_relative './classes/movie'
+require './classes/game.rb'
 
 class App
   def initialize
     @movies = []
     @sources = []
+    @games = []
+    @authors = []
   end
 
   def welcome
@@ -52,6 +55,21 @@ class App
     puts
   end
 
+  def list_games
+    if @games.empty?
+      puts "There are no games\n\n"
+    else
+      puts "\n\nGames:\n"
+      @games.each do |game|
+        puts "#{game.name} #{game.multiplayer} #{game.last_played_at} (#{game.publish_date.year})\n"
+      end
+    end
+    puts
+  end
+
+  def list_authors
+  end
+
   def add_movie
     puts 'What is the name of the movie?'
     movie_name = gets.chomp
@@ -79,6 +97,23 @@ class App
     new_movie.add_source(source)
   end
 
+  def add_game
+    puts 'What is the name of the game?'
+    game_name = gets.chomp
+
+    puts 'Is the game multiplayer? (y/n)'
+    multiplayer = gets.chomp.downcase
+
+    puts 'What is the publish date? (YYYY-MM-DD)'
+    publish_date = gets.chomp
+
+    puts 'What is the last played at date? (YYYY-MM-DD)'
+    last_played_date = gets.chomp
+
+    new_game = Game.new(game_name, multiplayer,last_played_date, publish_date)
+    @games << new_game
+  end
+
   def run
     puts welcome
     loop do
@@ -88,10 +123,14 @@ class App
       case choice
       when '3'
         list_movies
+      when '4'
+        list_games
       when '8'
         list_sources
       when '11'
         add_movie
+      when '12'
+        add_game
       when '13', 'q', 'Q'
         break
       end
