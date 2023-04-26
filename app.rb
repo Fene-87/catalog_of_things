@@ -2,8 +2,8 @@ require_relative './classes/source'
 require_relative './classes/movie'
 require_relative './classes/storage/movie_storage'
 require_relative './classes/storage/source_storage'
-require './classes/game.rb'
-require './classes/author.rb'
+require './classes/game'
+require './classes/author'
 
 class App
   def initialize
@@ -122,7 +122,7 @@ class App
     puts 'What is the last played at date? (YYYY-MM-DD)'
     last_played_date = gets.chomp
 
-    new_game = Game.new(game_name, multiplayer,last_played_date, publish_date)
+    new_game = Game.new(game_name, multiplayer, last_played_date, publish_date)
     @games << new_game
 
     puts 'Who is the author of the game? (e.g. Stephen King.)'
@@ -132,7 +132,9 @@ class App
     puts 'Last Name: '
     author_last_name = gets.chomp
 
-    author = @authors.find { |author_temp| author_temp.first_name == author_first_name && author_temp.last_name == author_last_name}
+    author = @authors.find do |author_temp|
+      author_temp.first_name == author_first_name && author_temp.last_name == author_last_name
+    end
     return unless author.nil?
 
     author = Author.new(author_first_name, author_last_name)
