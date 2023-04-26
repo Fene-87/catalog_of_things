@@ -22,9 +22,6 @@ module ReadFromDatabase
       music_albums = File.open('./data/music.json')
       data = music_albums.read
       parsed_music_albums = JSON.parse(data)
-      music_albums_arr = parsed_music_albums.map do |dat|
-        MusicAlbum.new(dat['on_spotify'], dat['publish_date'], id = dat['id'])
-      end
     else
       File.write('./data/music.json', [])
       []
