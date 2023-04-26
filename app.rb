@@ -3,6 +3,7 @@ require_relative './classes/movie'
 require_relative './classes/storage/movie_storage'
 require_relative './classes/storage/source_storage'
 require './classes/game.rb'
+require './classes/author.rb'
 
 class App
   def initialize
@@ -70,6 +71,15 @@ class App
   end
 
   def list_authors
+    if @authors.empty?
+      puts "There are no authors\n\n"
+    else
+      puts "\n\List of Authors:\n"
+      @authors.each do |author|
+        puts "#{author.first_name} #{author.last_name}\n"
+      end
+    end
+    puts
   end
 
   def add_movie
@@ -114,6 +124,21 @@ class App
 
     new_game = Game.new(game_name, multiplayer,last_played_date, publish_date)
     @games << new_game
+
+    puts 'Who is the author of the game? (e.g. Stephen King.)'
+    puts 'First Name: '
+    author_first_name = gets.chomp
+
+    puts 'Last Name: '
+    author_last_name = gets.chomp
+
+    author = @authors.find { |author_temp| author_temp.first_name == author_first_name && author_temp.last_name == author_last_name}
+    return unless author.nil?
+
+    author = Author.new(author_first_name, author_last_name)
+    @authors << author
+
+    new_game.add_author(author)
   end
 
   def quit
