@@ -8,6 +8,7 @@ class Book
 
   def can_be_archived?
     return false if @cover_state == 'torn' || @cover_state == 'worn'
+
     true
   end
 end
