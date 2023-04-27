@@ -4,6 +4,7 @@ require_relative './classes/storage/movie_storage'
 require_relative './classes/storage/source_storage'
 require './classes/game'
 require './classes/author'
+require './classes/storage/game_storage.rb'
 
 class App
   def initialize
@@ -146,6 +147,7 @@ class App
   def quit
     MovieStorage.store(@movies)
     SourceStorage.store(@sources)
+    GameStorage.store(@games)
   end
 
   def run
