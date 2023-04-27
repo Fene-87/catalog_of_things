@@ -11,6 +11,10 @@ require_relative './classes/game'
 require_relative './classes/author'
 require_relative './classes/storage/game_storage'
 require_relative './classes/storage/author_storage'
+require_relative './classes/storage/book_storage'
+require_relative './classes/storage/label_storage'
+require_relative './classes/book'
+require_relative './classes/label'
 
 class App
   include ReadFromDatabase
@@ -24,6 +28,8 @@ class App
     @sources = SourceStorage.fetch
     @games = GameStorage.fetch
     @authors = AuthorStorage.fetch
+    @books = BooksStorage.fetch
+    @labels = LabelsStorage.fetch
   end
 
   def welcome
@@ -63,7 +69,7 @@ class App
     if @sources.empty?
       puts "There are no sources\n\n"
     else
-      puts "\n\Sources:\n"
+      puts "\n\nSources:\n"
       @sources.each do |source|
         puts "#{source.name}\n"
       end
@@ -87,9 +93,37 @@ class App
     if @authors.empty?
       puts "There are no authors\n\n"
     else
-      puts "\n\List of Authors:\n"
+      puts "\n\nList of Authors:\n"
       @authors.each do |author|
         puts "#{author.first_name} #{author.last_name}\n"
+      end
+    end
+    puts
+  end
+
+  # list books
+
+  def list_books
+    if @books.empty?
+      puts "There are no books\n\n"
+    else
+      puts "\n\nBooks:\n"
+      @books.each do |book|
+        puts "#{book.name} #{book.publisher} #{book.cover_state}\n"
+      end
+    end
+    puts
+  end
+
+  # list labels
+
+  def list_labels
+    if @labels.empty?
+      puts "There are no labels\n\n"
+    else
+      puts "\n\nLabels:\n"
+      @labels.each do |label|
+        puts "#{label.title} #{label.color}\n"
       end
     end
     puts
@@ -156,11 +190,46 @@ class App
     new_game.add_author(author)
   end
 
+  # add a book
+
+  def add_book
+    puts 'What is the name of the book?'
+    book_name = gets.chomp
+
+    puts 'Who is the publisher of the book?'
+    book_publisher_name = gets.chomp
+
+    puts 'What is the date of publish of the book?'
+    book_publish_date = gets.chomp
+
+    puts 'What is the cover state of the book? (Good/Bad)'
+    book_cover_state = gets.chomp
+
+    new_book = Book.new(book_name, book_publisher_name, book_publish_date, book_cover_state)
+    @books << new_book
+
+    puts 'What is the label of the book? (e.g. Gift, New)'
+    label_name = gets.chomp
+
+    puts 'What is the color of the label of the book? (e.g. Gift, New)'
+    label_color = gets.chomp
+
+    label = @labels.find { |label_temp| label_temp.name == label_name }
+    return unless label.nil?
+
+    label = Label.new(label_name, label_color)
+    @labels << label
+
+    new_book.add_label(label)
+  end
+
   def quit
     MovieStorage.store(@movies)
     SourceStorage.store(@sources)
     GameStorage.store(@games)
     AuthorStorage.store(@authors)
+    BooksStorage.store(@books)
+    LabelsStorage.store(@labels)
   end
 
   def run
@@ -171,7 +240,7 @@ class App
 
       case choice
       when '1'
-        @item
+        list_books
       when '2'
         display_music_album(show_index: true)
       when '5'
@@ -186,10 +255,14 @@ class App
         list_movies
       when '4'
         list_games
+      when '6'
+        list_labels
       when '7'
         list_authors
       when '8'
         list_sources
+      when '9'
+        add_book
       when '11'
         add_movie
       when '12'
