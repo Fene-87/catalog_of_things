@@ -7,6 +7,10 @@ require_relative './classes/source'
 require_relative './classes/movie'
 require_relative './classes/storage/movie_storage'
 require_relative './classes/storage/source_storage'
+require_relative './classes/game'
+require_relative './classes/author'
+require_relative './classes/storage/game_storage'
+require_relative './classes/storage/author_storage'
 
 class App
   include ReadFromDatabase
@@ -16,10 +20,10 @@ class App
     @item = Item.new('2019-01-01')
     @genres = read_genre
     @music_albums = read_music_album
-    @movies = []
-    @sources = []
     @movies = MovieStorage.fetch
     @sources = SourceStorage.fetch
+    @games = GameStorage.fetch
+    @authors = AuthorStorage.fetch
   end
 
   def welcome
@@ -155,6 +159,8 @@ class App
   def quit
     MovieStorage.store(@movies)
     SourceStorage.store(@sources)
+    GameStorage.store(@games)
+    AuthorStorage.store(@authors)
   end
 
   def run
