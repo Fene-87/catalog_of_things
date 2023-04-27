@@ -9,8 +9,8 @@ require_relative './classes/storage/movie_storage'
 require_relative './classes/storage/source_storage'
 require './classes/game'
 require './classes/author'
-require './classes/storage/game_storage.rb'
-require './classes/storage/author_storage.rb'
+require './classes/storage/game_storage'
+require './classes/storage/author_storage'
 
 
 class App
