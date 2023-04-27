@@ -7,6 +7,8 @@ require_relative './classes/source'
 require_relative './classes/movie'
 require_relative './classes/storage/movie_storage'
 require_relative './classes/storage/source_storage'
+require './classes/game'
+require './classes/author'
 require './classes/storage/game_storage.rb'
 require './classes/storage/author_storage.rb'
 
@@ -18,8 +20,6 @@ class App
     @item = Item.new('2019-01-01')
     @genres = read_genre
     @music_albums = read_music_album
-    @movies = []
-    @sources = []
     @movies = MovieStorage.fetch
     @sources = SourceStorage.fetch
     @games = GameStorage.fetch
