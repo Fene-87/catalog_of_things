@@ -12,6 +12,7 @@ require './classes/author'
 require './classes/storage/game_storage.rb'
 require './classes/storage/author_storage.rb'
 
+
 class App
   include ReadFromDatabase
   include WriteToDatabase
