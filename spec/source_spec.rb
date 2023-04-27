@@ -1,4 +1,3 @@
-
 require 'rspec'
 require_relative '../classes/source'
 require_relative '../classes/movie'
