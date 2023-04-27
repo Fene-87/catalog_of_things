@@ -3,5 +3,10 @@
     "id": 723,
     "title": "Gift",
     "color": "Green"
+  },
+  {
+    "id": 155,
+    "title": "New",
+    "color": "Red"
   }
 ]
