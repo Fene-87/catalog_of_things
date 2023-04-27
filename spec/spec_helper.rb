@@ -1,0 +1,7 @@
+require 'rspec'
+require_relative '../classes/book'
+require_relative '../classes/genre'
+require_relative '../classes/item'
+require_relative '../classes/movie'
+require_relative '../classes/source'
+require_relative '../classes/music'
