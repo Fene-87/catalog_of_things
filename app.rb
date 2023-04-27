@@ -11,8 +11,8 @@ class App
   def initialize
     @movies = MovieStorage.fetch
     @sources = SourceStorage.fetch
-    @games = []
-    @authors = []
+    @games = GameStorage.fetch
+    @authors = AuthorStorage.fetch
   end
 
   def welcome
