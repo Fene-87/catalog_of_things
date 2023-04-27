@@ -1,5 +1,4 @@
-require_relative '../classes/genre'
-require_relative '../classes/item'
+require 'spec_helper'
 
 describe Genre do
   context 'when initialized' do
