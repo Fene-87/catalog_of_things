@@ -109,7 +109,7 @@ class App
     else
       puts "\n\nBooks:\n"
       @books.each do |book|
-        puts "#{book.name} #{book.publisher} #{book.cover_state}\n"
+        puts "Name: #{book.name} Publisher: #{book.publisher} Cover State: #{book.cover_state}\n"
       end
     end
     puts
@@ -123,7 +123,7 @@ class App
     else
       puts "\n\nLabels:\n"
       @labels.each do |label|
-        puts "#{label.title} #{label.color}\n"
+        puts "Title: #{label.title} Color: #{label.color}\n"
       end
     end
     puts
@@ -211,7 +211,7 @@ class App
     puts 'What is the label of the book? (e.g. Gift, New)'
     label_name = gets.chomp
 
-    puts 'What is the color of the label of the book? (e.g. Gift, New)'
+    puts 'What is the color of the label of the book?'
     label_color = gets.chomp
 
     label = @labels.find { |label_temp| label_temp.name == label_name }
@@ -243,18 +243,12 @@ class App
         list_books
       when '2'
         display_music_album(show_index: true)
-      when '5'
-        display_genre(show_index: false)
-      when '10'
-        puts 'On spotify? [Y/N]:  '
-        spotify_value = gets.chomp.capitalize
-        puts 'Publish Date: (YYYY-MM-DD)'
-        publish_date_value = gets.chomp
-        validate_music_album(spotify_value, publish_date_value)
       when '3'
         list_movies
       when '4'
         list_games
+      when '5'
+        display_genre(show_index: false)
       when '6'
         list_labels
       when '7'
@@ -263,6 +257,12 @@ class App
         list_sources
       when '9'
         add_book
+      when '10'
+        puts 'On spotify? [Y/N]:  '
+        spotify_value = gets.chomp.capitalize
+        puts 'Publish Date: (YYYY-MM-DD)'
+        publish_date_value = gets.chomp
+        validate_music_album(spotify_value, publish_date_value)
       when '11'
         add_movie
       when '12'
