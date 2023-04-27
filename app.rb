@@ -12,7 +12,6 @@ require './classes/author'
 require './classes/storage/game_storage'
 require './classes/storage/author_storage'
 
-
 class App
   include ReadFromDatabase
   include WriteToDatabase
