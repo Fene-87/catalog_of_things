@@ -10,5 +10,11 @@
     "name": "The Dark Knight",
     "publish_date": "2008-07-14",
     "silent": false
+  },
+  {
+    "id": 888,
+    "name": "peaky blinders",
+    "publish_date": "2018-12-26",
+    "silent": true
   }
 ]

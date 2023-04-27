@@ -21,7 +21,7 @@ class GameStorage < Storage
             @games << serialize(game)
         end
 
-        File.write('./data/games.json', JSON.pretty_generate(games))
+        File.write('./data/games.json', JSON.pretty_generate(@games))
     end
 
     def self.serialize(game)
@@ -29,11 +29,12 @@ class GameStorage < Storage
             name: game.name,
             multiplayer: game.multiplayer,
             last_played_at: game.last_played_at,
-            publish_date: game.publish_date
+            publish_date: game.publish_date,
+            id: game.id
         }
     end
 
     def self.deserialize(game)
-        Game.new(game['name'], game['multiplayer'], game['last_played_at'], game['publish_date'])
+        Game.new(game['name'], game['multiplayer'], game['last_played_at'], game['publish_date'], game['id'])
     end
 end
