@@ -1,5 +1,4 @@
-require_relative '../classes/music'
-require_relative '../classes/item'
+require 'spec_helper'
 
 describe MusicAlbum do
   context 'when initialized' do

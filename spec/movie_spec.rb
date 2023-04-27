@@ -1,7 +1,4 @@
-require 'rspec'
-require_relative '../classes/movie'
-require_relative '../classes/item'
-require_relative '../classes/source'
+require 'spec_helper'
 
 describe Movie do
   it 'can be archived if it is silent' do

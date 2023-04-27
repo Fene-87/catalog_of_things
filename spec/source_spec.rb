@@ -1,6 +1,4 @@
-require 'rspec'
-require_relative '../classes/source'
-require_relative '../classes/movie'
+require 'spec_helper'
 
 describe Source do
   it 'can be created' do

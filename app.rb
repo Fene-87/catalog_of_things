@@ -1,5 +1,6 @@
 require './LocalStore/database_write'
 require './LocalStore/database_read'
+require './list_data'
 require_relative './classes/item'
 require_relative './classes/music'
 require_relative './classes/genre'
@@ -11,6 +12,10 @@ require_relative './classes/game'
 require_relative './classes/author'
 require_relative './classes/storage/game_storage'
 require_relative './classes/storage/author_storage'
+require_relative './classes/storage/book_storage'
+require_relative './classes/storage/label_storage'
+require_relative './classes/book'
+require_relative './classes/label'
 
 class App
   include ReadFromDatabase
@@ -24,75 +29,12 @@ class App
     @sources = SourceStorage.fetch
     @games = GameStorage.fetch
     @authors = AuthorStorage.fetch
+    @books = BooksStorage.fetch
+    @labels = LabelsStorage.fetch
   end
 
   def welcome
     'Welcome to the app'
-  end
-
-  def list_options
-    puts 'What would you like to do?'
-    puts '1. List all books'
-    puts '2. List all music albums'
-    puts '3. List all movies'
-    puts '4. List all games'
-    puts '5. List all genres'
-    puts '6. List all labels'
-    puts '7. List all authors'
-    puts '8. List all sources'
-    puts '9. Add a new book'
-    puts '10. Add a new music album'
-    puts '11. Add a new movie'
-    puts '12. Add a new game'
-    puts '13. Exit'
-  end
-
-  def list_movies
-    if @movies.empty?
-      puts "There are no movies\n\n"
-    else
-      puts "\n\nMovies:\n"
-      @movies.each do |movie|
-        puts "#{movie.name} (#{movie.publish_date.year})\n"
-      end
-    end
-    puts
-  end
-
-  def list_sources
-    if @sources.empty?
-      puts "There are no sources\n\n"
-    else
-      puts "\n\Sources:\n"
-      @sources.each do |source|
-        puts "#{source.name}\n"
-      end
-    end
-    puts
-  end
-
-  def list_games
-    if @games.empty?
-      puts "There are no games\n\n"
-    else
-      puts "\n\nGames:\n"
-      @games.each do |game|
-        puts "#{game.name} #{game.multiplayer} #{game.last_played_at} (#{game.publish_date.year})\n"
-      end
-    end
-    puts
-  end
-
-  def list_authors
-    if @authors.empty?
-      puts "There are no authors\n\n"
-    else
-      puts "\n\List of Authors:\n"
-      @authors.each do |author|
-        puts "#{author.first_name} #{author.last_name}\n"
-      end
-    end
-    puts
   end
 
   def add_movie
@@ -156,11 +98,43 @@ class App
     new_game.add_author(author)
   end
 
+  # add a book
+
+  def add_book
+    puts 'What is the name of the book?'
+    book_name = gets.chomp
+
+    puts 'Who is the publisher of the book?'
+    book_publisher_name = gets.chomp
+
+    puts 'What is the date of publish of the book?'
+    book_publish_date = gets.chomp
+
+    puts 'What is the cover state of the book? (Good/Bad)'
+    book_cover_state = gets.chomp
+
+    new_book = Book.new(book_name, book_publisher_name, book_publish_date, book_cover_state)
+    @books << new_book
+
+    puts 'What is the label of the book? (e.g. Gift, New)'
+    label_name = gets.chomp
+
+    puts 'What is the color of the label of the book?'
+    label_color = gets.chomp
+
+    label = Label.new(label_name, label_color)
+    @labels << label
+
+    new_book.add_label(label)
+  end
+
   def quit
     MovieStorage.store(@movies)
     SourceStorage.store(@sources)
     GameStorage.store(@games)
     AuthorStorage.store(@authors)
+    BooksStorage.store(@books)
+    LabelsStorage.store(@labels)
   end
 
   def run
@@ -171,25 +145,29 @@ class App
 
       case choice
       when '1'
-        @item
+        list_books
       when '2'
         display_music_album(show_index: true)
+      when '3'
+        list_movies
+      when '4'
+        list_games
       when '5'
         display_genre(show_index: false)
+      when '6'
+        list_labels
+      when '7'
+        list_authors
+      when '8'
+        list_sources
+      when '9'
+        add_book
       when '10'
         puts 'On spotify? [Y/N]:  '
         spotify_value = gets.chomp.capitalize
         puts 'Publish Date: (YYYY-MM-DD)'
         publish_date_value = gets.chomp
         validate_music_album(spotify_value, publish_date_value)
-      when '3'
-        list_movies
-      when '4'
-        list_games
-      when '7'
-        list_authors
-      when '8'
-        list_sources
       when '11'
         add_movie
       when '12'
