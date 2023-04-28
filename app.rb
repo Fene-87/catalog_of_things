@@ -1,5 +1,5 @@
-require './LocalStore/database_write'
-require './LocalStore/database_read'
+require_relative './classes/storage/database_write'
+require_relative './classes/storage/database_read'
 require './list_data'
 require_relative './classes/item'
 require_relative './classes/music'

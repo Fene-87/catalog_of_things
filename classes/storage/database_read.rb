@@ -1,6 +1,6 @@
 require 'json'
-require_relative '../classes/genre'
-require_relative '../classes/music'
+require_relative './classes/genre'
+require_relative './classes/music'
 
 module ReadFromDatabase
   def read_genre
