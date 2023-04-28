@@ -1,0 +1,16 @@
+[
+  {
+    "id": 805,
+    "name": "Harry Potter and the philospher's stone",
+    "publisher": "Bloomsbury",
+    "publish_date": "1997-06-26",
+    "cover_state": "Good"
+  },
+  {
+    "id": 957,
+    "name": "ABC",
+    "publisher": "XYZ",
+    "publish_date": "2023-04-28",
+    "cover_state": "Good"
+  }
+]
