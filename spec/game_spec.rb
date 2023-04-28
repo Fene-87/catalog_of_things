@@ -1,8 +1,5 @@
-require 'rspec'
 require 'date'
-require_relative '../classes/game'
-require_relative '../classes/item'
-require_relative '../classes/author'
+require 'spec_helper'
 
 describe Game do
   context 'When instantiated' do
