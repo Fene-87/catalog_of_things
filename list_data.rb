@@ -63,8 +63,6 @@ def list_authors
   puts
 end
 
-# list books
-
 def list_books
   if @books.empty?
     puts "There are no books\n\n"

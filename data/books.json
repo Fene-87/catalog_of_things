@@ -1,16 +1,9 @@
 [
   {
-    "id": 881,
-    "name": "The Kite Runner",
-    "publisher": "Khalid Hosseini",
-    "publish_date": "29-05-2003",
+    "id": 506,
+    "name": "Harry Potter",
+    "publisher": "Bloomsbury",
+    "publish_date": "2003-09-03",
     "cover_state": "Good"
-  },
-  {
-    "id": 884,
-    "name": "The Vanishing Half",
-    "publisher": "Riverhead Books",
-    "publish_date": "02-06-2020",
-    "cover_state": "Bad"
   }
 ]

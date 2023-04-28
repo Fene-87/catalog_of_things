@@ -1,6 +1,4 @@
-require_relative './classes/storage/database_write'
-require_relative './classes/storage/database_read'
-require './list_data'
+require_relative './list_data'
 require_relative './classes/item'
 require_relative './classes/music'
 require_relative './classes/genre'
@@ -14,17 +12,16 @@ require_relative './classes/storage/game_storage'
 require_relative './classes/storage/author_storage'
 require_relative './classes/storage/book_storage'
 require_relative './classes/storage/label_storage'
+require_relative './classes/storage/music_storage'
+require_relative './classes/storage/genre_storage'
 require_relative './classes/book'
 require_relative './classes/label'
 
 class App
-  include ReadFromDatabase
-  include WriteToDatabase
-
   def initialize
     @item = Item.new('2019-01-01')
-    @genres = read_genre
-    @music_albums = read_music_album
+    @genres = GenreStorage.fetch
+    @music_albums = MusicAlbumStorage.fetch
     @movies = MovieStorage.fetch
     @sources = SourceStorage.fetch
     @games = GameStorage.fetch
@@ -128,6 +125,31 @@ class App
     new_book.add_label(label)
   end
 
+  def add_music_album
+    puts 'What is the name of the album?'
+    album_name = gets.chomp
+
+    puts 'What is the publish date? (YYYY-MM-DD)'
+    publish_date = gets.chomp
+
+    puts 'Is album on Spotify? (y/n)'
+    on_spotify = gets.chomp.downcase == 'y'
+
+    new_music_album = MusicAlbum.new(album_name, on_spotify, publish_date)
+    @music_albums << new_music_album
+
+    puts 'What is the genre of the album?'
+    genre_name = gets.chomp
+
+    genre = @genres.find { |genre_temp| genre_temp.name == genre_name }
+    return unless genre.nil?
+
+    genre = Genre.new(genre_name)
+    @genres << genre
+
+    new_music_album.add_genre(genre)
+  end
+
   def quit
     MovieStorage.store(@movies)
     SourceStorage.store(@sources)
@@ -135,6 +157,8 @@ class App
     AuthorStorage.store(@authors)
     BooksStorage.store(@books)
     LabelsStorage.store(@labels)
+    MusicAlbumStorage.store(@music_albums)
+    GenreStorage.store(@genres)
   end
 
   def run
@@ -163,11 +187,7 @@ class App
       when '9'
         add_book
       when '10'
-        puts 'On spotify? [Y/N]:  '
-        spotify_value = gets.chomp.capitalize
-        puts 'Publish Date: (YYYY-MM-DD)'
-        publish_date_value = gets.chomp
-        validate_music_album(spotify_value, publish_date_value)
+        add_music_album
       when '11'
         add_movie
       when '12'
@@ -181,106 +201,106 @@ class App
     end
   end
 
-  def create_genre(name)
-    new_genre_obj = Genre.new(name)
-    @genres.push(new_genre_obj)
-    new_genre_vari = @genres.map do |new_genre|
-      { name: new_genre.name,
-        id: new_genre.id }
-    end
-    write_genre(new_genre_vari)
-    puts 'Genre created successfully!.'
-    new_genre_obj
-  end
-
-  def validate_music_album(spotify_value, publish_date_value)
-    if spotify_value == 'Y'
-      new_spotify_value = true
-      create_music_album(new_spotify_value, publish_date_value)
-    elsif spotify_value == 'N'
-      new_spotify_value = false
-      create_music_album(new_spotify_value, publish_date_value)
-    else
-      puts 'Invalid spotify value Input'
-      run
-    end
-  end
-
-  def create_music_album(on_spotify, publish_date)
-    new_music_album_obj = MusicAlbum.new(on_spotify, publish_date)
-    puts 'Do you want to create a new genre(Y) or select an existing genre(N)? [Input the option]:'
-    new_genre_option_value = gets.chomp.capitalize
-    if new_genre_option_value == 'Y'
-      puts 'Enter genre name (eg Comedy)'
-      genre_variabl = gets.chomp.downcase.capitalize
-      expect_genre_object = create_genre(genre_variabl)
-
-      push_an_album = {
-        on_spotify: new_music_album_obj.on_spotify,
-        publish_date: new_music_album_obj.publish_date,
-        id: new_music_album_obj.id,
-        archived: new_music_album_obj.can_be_archived?,
-        genre: { id: expect_genre_object.id,
-                 name: expect_genre_object.name }
-      }
-
-      new_music_album_vari = @music_albums.push(push_an_album)
-      write_music_album(new_music_album_vari)
-      puts 'Music Album created successfully!.'
-
-    elsif new_genre_option_value == 'N'
-      puts 'Select a genre from the following list by number (not ID please)'
-      display_genre(show_index: true)
-      genre_index_value = gets.chomp.to_i
-
-      push_an_album = {
-        on_spotify: new_music_album_obj.on_spotify,
-        publish_date: new_music_album_obj.publish_date,
-        id: new_music_album_obj.id,
-        archived: new_music_album_obj.can_be_archived?,
-        genre: { id: @genres[genre_index_value].id,
-                 name: @genres[genre_index_value].name }
-      }
-      new_music_album_vari = @music_albums.push(push_an_album)
-      write_music_album(new_music_album_vari)
-      puts 'Music Album created successfully!.'
-
-    else
-      puts 'Invalid Input'
-    end
-    run
-  end
-
-  def display_genre(show_index: false)
-    @genres = read_genre
-    if @genres.empty?
-      puts 'Genre list is empty: Create a genre'
-      run
-    elsif show_index
-      @genres.each_with_index do |genre, index|
-        puts "#{index}) #{genre.class} Name: #{genre.name}, ID: #{genre.id}"
-      end
-      puts 'Display genre with index successfully'
-    else
-      @genres.each { |genre| puts "#{genre.class} Name: #{genre.name}, ID: #{genre.id}" }
-      puts 'Display genre without index successfully'
-      run
-    end
-  end
-
-  def display_music_album(show_index: false)
-    @music_albums = read_music_album
-    if @music_albums.empty?
-      puts 'Music Album list is empty: Create an Album'
-    elsif show_index
-      @music_albums.each_with_index do |music_album, index|
-        puts "#{index}) Publish Date: #{music_album['publish_date']} On Spotify: #{music_album['on_spotify']}, ID: #{music_album['id']}"
-      end
-      puts 'Display music album with index successfully'
-    else
-      @music_albums.each { |music_album| puts "Publish Date: #{music_album['publish_date']} On Spotify: #{music_album['on_spotify']}, ID: #{music_album['id']}" }
-      puts 'Display music album without index successfully'
-    end
-    run
-  end
+  # def create_genre(name)
+  #   new_genre_obj = Genre.new(name)
+  #   @genres.push(new_genre_obj)
+  #   new_genre_vari = @genres.map do |new_genre|
+  #     { name: new_genre.name,
+  #       id: new_genre.id }
+  #   end
+  #   # write_genre(new_genre_vari)
+  #   puts 'Genre created successfully!.'
+  #   new_genre_obj
+  # end
+  #
+  # def validate_music_album(spotify_value, publish_date_value)
+  #   if spotify_value == 'Y'
+  #     new_spotify_value = true
+  #     create_music_album(new_spotify_value, publish_date_value)
+  #   elsif spotify_value == 'N'
+  #     new_spotify_value = false
+  #     create_music_album(new_spotify_value, publish_date_value)
+  #   else
+  #     puts 'Invalid spotify value Input'
+  #     run
+  #   end
+  # end
+  #
+  # def create_music_album(on_spotify, publish_date)
+  #   new_music_album_obj = MusicAlbum.new(on_spotify, publish_date)
+  #   puts 'Do you want to create a new genre(Y) or select an existing genre(N)? [Input the option]:'
+  #   new_genre_option_value = gets.chomp.capitalize
+  #   if new_genre_option_value == 'Y'
+  #     puts 'Enter genre name (eg Comedy)'
+  #     genre_variabl = gets.chomp.downcase.capitalize
+  #     expect_genre_object = create_genre(genre_variabl)
+  #
+  #     # push_an_album = {
+  #     #   on_spotify: new_music_album_obj.on_spotify,
+  #     #   publish_date: new_music_album_obj.publish_date,
+  #     #   id: new_music_album_obj.id,
+  #     #   archived: new_music_album_obj.can_be_archived?,
+  #     #   genre: { id: expect_genre_object.id,
+  #     #            name: expect_genre_object.name }
+  #     # }
+  #     #
+  #     # new_music_album_vari = @music_albums.push(push_an_album)
+  #     # write_music_album(new_music_album_vari)
+  #     puts 'Music Album created successfully!.'
+  #
+  #   elsif new_genre_option_value == 'N'
+  #     puts 'Select a genre from the following list by number (not ID please)'
+  #     display_genre(show_index: true)
+  #     genre_index_value = gets.chomp.to_i
+  #
+  #     # push_an_album = {
+  #     #   on_spotify: new_music_album_obj.on_spotify,
+  #     #   publish_date: new_music_album_obj.publish_date,
+  #     #   id: new_music_album_obj.id,
+  #     #   archived: new_music_album_obj.can_be_archived?,
+  #     #   genre: { id: @genres[genre_index_value].id,
+  #     #            name: @genres[genre_index_value].name }
+  #     # }
+  #     # new_music_album_vari = @music_albums.push(push_an_album)
+  #     # write_music_album(new_music_album_vari)
+  #     puts 'Music Album created successfully!.'
+  #
+  #   else
+  #     puts 'Invalid Input'
+  #   end
+  #   run
+  # end
+  #
+  # def display_genre(show_index: false)
+  #   # @genres = read_genre
+  #   if @genres.empty?
+  #     puts 'Genre list is empty: Create a genre'
+  #     run
+  #   elsif show_index
+  #     @genres.each_with_index do |genre, index|
+  #       puts "#{index}) #{genre.class} Name: #{genre.name}, ID: #{genre.id}"
+  #     end
+  #     puts 'Display genre with index successfully'
+  #   else
+  #     @genres.each { |genre| puts "#{genre.class} Name: #{genre.name}, ID: #{genre.id}" }
+  #     puts 'Display genre without index successfully'
+  #     run
+  #   end
+  # end
+  #
+  # def display_music_album(show_index: false)
+  #   # @music_albums = read_music_album
+  #   if @music_albums.empty?
+  #     puts 'Music Album list is empty: Create an Album'
+  #   elsif show_index
+  #     @music_albums.each_with_index do |music_album, index|
+  #       puts "#{index}) Publish Date: #{music_album['publish_date']} On Spotify: #{music_album['on_spotify']}, ID: #{music_album['id']}"
+  #     end
+  #     puts 'Display music album with index successfully'
+  #   else
+  #     @music_albums.each { |music_album| puts "Publish Date: #{music_album['publish_date']} On Spotify: #{music_album['on_spotify']}, ID: #{music_album['id']}" }
+  #     puts 'Display music album without index successfully'
+  #   end
+  #   run
+  # end
 end
