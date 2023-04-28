@@ -15,7 +15,6 @@ describe Genre do
   context 'when adding to item' do
     genre = Genre.new('Afrobeat', 10)
     item = Item.new('2019-01-01')
-    items = []
     genre.add_item(item)
     it 'has items' do
       expect(genre.items).not_to be_empty
