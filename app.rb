@@ -171,13 +171,13 @@ class App
       when '1'
         list_books
       when '2'
-        display_music_album(show_index: true)
+        list_music_albums
       when '3'
         list_movies
       when '4'
         list_games
       when '5'
-        display_genre(show_index: false)
+        list_genres
       when '6'
         list_labels
       when '7'

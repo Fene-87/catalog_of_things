@@ -75,8 +75,6 @@ def list_books
   puts
 end
 
-# list labels
-
 def list_labels
   if @labels.empty?
     puts "There are no labels\n\n"
@@ -84,6 +82,30 @@ def list_labels
     puts "\n\nLabels:\n"
     @labels.each do |label|
       puts "Title: #{label.title} Color: #{label.color}\n"
+    end
+  end
+  puts
+end
+
+def list_genres
+  if @genres.empty?
+    puts "There are no genres\n\n"
+  else
+    puts "\n\nGenres:\n"
+    @genres.each do |genre|
+      puts "#{genre.name}\n"
+    end
+  end
+  puts
+end
+
+def list_music_albums
+  if @music_albums.empty?
+    puts "There are no music albums\n\n"
+  else
+    puts "\n\nMusic Albums:\n"
+    @music_albums.each do |music_album|
+      puts "#{music_album.name} (#{music_album.publish_date.year})\n"
     end
   end
   puts
